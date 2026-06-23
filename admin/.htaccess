@@ -1,0 +1,12 @@
+# Admin area protections
+Options -Indexes
+
+<IfModule mod_headers.c>
+    Header set X-Robots-Tag "noindex, nofollow"
+    Header set X-Frame-Options "SAMEORIGIN"
+</IfModule>
+
+# Protect admin includes from direct access
+<FilesMatch "\.(inc)$">
+    Require all denied
+</FilesMatch>

@@ -1,0 +1,69 @@
+# ==========================================================
+# Bharat SEO - Root .htaccess
+# ==========================================================
+
+# --- Security: disable directory listing ---
+Options -Indexes
+
+# --- Default charset ---
+AddDefaultCharset UTF-8
+
+# --- Protect sensitive files ---
+<FilesMatch "(^\.|composer\.(json|lock)|\.(sql|md|log|ini|sh|bak)$)">
+    Require all denied
+</FilesMatch>
+
+# Allow README to be served if needed but block by default; keep config protected
+<Files "config.php">
+    Require all denied
+</Files>
+
+# --- Front controller routing ---
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Set base if the site lives in a subfolder, e.g. RewriteBase /Bharat/
+    # RewriteBase /
+
+    # Generated dynamic robots.txt and sitemap.xml
+    RewriteRule ^robots\.txt$ robots.php [L]
+    RewriteRule ^sitemap\.xml$ sitemap.php [L]
+
+    # Do not rewrite existing files or directories
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
+
+    # Everything else goes through the front controller
+    RewriteRule ^ index.php [L]
+</IfModule>
+
+# --- Performance: caching for static assets ---
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType text/css "access plus 7 days"
+    ExpiresByType application/javascript "access plus 7 days"
+    ExpiresByType image/jpeg "access plus 30 days"
+    ExpiresByType image/png "access plus 30 days"
+    ExpiresByType image/webp "access plus 30 days"
+    ExpiresByType image/svg+xml "access plus 30 days"
+    ExpiresByType font/woff2 "access plus 30 days"
+</IfModule>
+
+# --- Performance: gzip/deflate compression ---
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/css text/plain text/xml application/javascript application/json image/svg+xml
+</IfModule>
+
+# --- Security headers ---
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+    Header set X-XSS-Protection "1; mode=block"
+</IfModule>
+
+# --- Custom error documents ---
+ErrorDocument 404 /index.php?route=404
+ErrorDocument 403 /index.php?route=403
+ErrorDocument 500 /index.php?route=500

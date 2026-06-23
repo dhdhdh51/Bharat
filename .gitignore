@@ -1,0 +1,16 @@
+# Local config (contains secrets)
+/config/config.php
+
+# Uploaded media
+/assets/uploads/*
+!/assets/uploads/.htaccess
+!/assets/uploads/.gitkeep
+
+# Logs
+/logs/*
+!/logs/.gitkeep
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*.log

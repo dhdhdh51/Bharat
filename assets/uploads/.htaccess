@@ -1,0 +1,10 @@
+# Prevent execution of scripts inside the uploads directory
+php_flag engine off
+<FilesMatch "\.(php|php3|php4|php5|php7|phtml|pl|py|cgi|asp|aspx|sh)$">
+    Require all denied
+</FilesMatch>
+
+# Only allow images and documents to be served
+<FilesMatch "\.(jpg|jpeg|png|gif|webp|svg|ico|pdf|webm|mp4)$">
+    Require all granted
+</FilesMatch>
