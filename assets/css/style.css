@@ -218,11 +218,12 @@ h3, .h3 { font-size: clamp(1.25rem, 2.6vw, 1.7rem); }
 .hero__badge { display: flex; align-items: center; gap: 10px; padding: 12px 16px; border-radius: 14px; background: var(--surface); border: 1px solid var(--border); font-size: 0.88rem; font-weight: 600; }
 .hero__badge i { color: var(--cyan); }
 .hero__visual { position: relative; min-height: 360px; display: grid; place-items: center; }
+.hero__visual > * { grid-area: 1 / 1; } /* overlap canvas + fallback in one cell, no stacking gap */
 .hero__fallback { width: 100%; aspect-ratio: 1; max-width: 460px; border-radius: 50%; background:
   radial-gradient(circle at 30% 30%, rgba(79,140,255,0.4), transparent 60%),
   radial-gradient(circle at 70% 70%, rgba(155,92,255,0.4), transparent 60%),
   conic-gradient(from 0deg, rgba(47,230,224,0.15), rgba(79,140,255,0.15), rgba(155,92,255,0.15), rgba(47,230,224,0.15));
-  border: 1px solid var(--border); display: grid; place-items: center; position: relative; }
+  border: 1px solid var(--border); display: grid; place-items: center; position: relative; margin-inline: auto; }
 #hero-three-canvas { width: 100%; height: 100%; min-height: 380px; }
 
 /* ---------- Marquee / logos ---------- */
@@ -423,7 +424,11 @@ table.data td { color: var(--text-muted); }
 /* ---------- Responsive ---------- */
 @media (max-width: 980px) {
   .hero__inner { grid-template-columns: 1fr; }
-  .hero__visual { order: -1; min-height: 280px; }
+  .hero__visual { order: -1; min-height: auto; }
+  /* Three.js is disabled on mobile; hide the empty canvas so it leaves no gap */
+  #hero-three-canvas { display: none; }
+  #heroFallback { display: grid !important; } /* always show static circle on mobile */
+  .hero__fallback { max-width: 300px; }
   .split { grid-template-columns: 1fr; }
   .footer-grid { grid-template-columns: 1fr 1fr; }
 }

@@ -201,7 +201,9 @@
       window.matchMedia('(max-width: 768px)').matches ||
       prefersReduced;
     if (lowEnd) {
-      // Keep static fallback visual, do not load Three.js
+      // Do not load Three.js. Hide the empty canvas (it reserves height and
+      // would leave a blank gap at the top) and show the static fallback.
+      canvas.style.display = 'none';
       var fb = doc.getElementById('heroFallback');
       if (fb) fb.style.display = 'grid';
       return;
@@ -222,6 +224,7 @@
       doc.body.appendChild(s);
     }
     function showFallback() {
+      canvas.style.display = 'none';
       var fb = doc.getElementById('heroFallback');
       if (fb) fb.style.display = 'grid';
     }

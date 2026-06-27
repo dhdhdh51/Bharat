@@ -95,7 +95,7 @@ $phone = setting('contact_phone', '');
   <?php endif; ?>
 </div>
 
-<script src="<?= asset('js/main.js') ?>?v=1.0" defer></script>
+<script src="<?= asset('js/main.js') ?>?v=1.1" defer></script>
 <?php if ($customFooter !== ''): ?><?= $customFooter ?><?php endif; ?>
 </body>
 </html>
